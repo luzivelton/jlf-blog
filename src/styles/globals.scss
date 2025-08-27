@@ -1,6 +1,10 @@
 @use './tokens/colors.scss' as *;
-@use '@/styles/tokens/radius.scss' as *;
+@use '@/styles/tokens/border.scss' as *;
 @use '@/styles/tokens/typography.scss' as *;
+
+html {
+  background: $color-neutral-100;
+}
 
 html,
 body,
@@ -8,6 +12,11 @@ body,
   font-style: normal;
   font-family: $font-family-base;
 }
+
+body {
+  font-size: $font-size-sm;
+}
+
 :root {
   font-size: 16px;
 }
@@ -32,5 +41,4 @@ body,
 
 *:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 3px $focus-shadow-color;
 }

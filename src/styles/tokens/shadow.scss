@@ -1,3 +1,8 @@
-$shadow-sm: 0 2px 6px 0 rgba(0, 0, 0, 0.08);
-$shadow-md: 0 4px 12px 0 rgba(0, 0, 0, 0.1);
-$shadow-lg: 0 8px 24px 0 rgba(0, 0, 0, 0.12);
+@use '@/styles/tokens/colors.scss' as *;
+
+$shadow-sm: 0 2px 6px 0
+  rgba(mix($color-primary-300, $color-accent-300, 60%), 0.12);
+$shadow-md: 0 4px 12px 0
+  rgba(mix($color-primary-300, $color-accent-400, 60%), 0.14);
+$shadow-lg: 0 8px 24px 0
+  rgba(mix($color-primary-300, $color-accent-300, 70%), 0.18);
