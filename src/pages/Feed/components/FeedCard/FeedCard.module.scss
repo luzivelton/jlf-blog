@@ -1,0 +1,43 @@
+@use '@/styles/tokens/border.scss' as *;
+@use '@/styles/tokens/colors.scss' as *;
+@use '@/styles/tokens/shadow.scss' as *;
+@use '@/styles/tokens/spacing.scss' as *;
+@use '@/styles/tokens/breakpoints.scss' as *;
+
+.container {
+  display: flex;
+  flex-direction: column;
+  background: $color-neutral-100;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-sm;
+  overflow: hidden;
+
+  @media (min-width: $breakpoint-md) {
+    border: $border-base;
+  }
+}
+
+.content {
+  flex: 1;
+  padding: $spacing-md;
+  gap: $spacing-md;
+  display: flex;
+  flex-direction: column;
+}
+
+.image {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.description {
+  height: 3.25rem;
+}
+
+.categories {
+  margin-top: auto;
+}
+
+.title {
+  all: unset;
+}

@@ -1,0 +1,15 @@
+@use '@/styles/tokens/colors.scss' as *;
+@use '@/styles/tokens/border.scss' as *;
+@use '@/styles/tokens/breakpoints.scss' as *;
+
+.image {
+  width: 100%;
+  background-color: $color-neutral-200;
+  border-radius: $radius-lg;
+  object-fit: scale-down;
+  height: 9.5rem;
+
+  @media (min-width: $breakpoint-md) {
+    height: 12.25rem;
+  }
+}

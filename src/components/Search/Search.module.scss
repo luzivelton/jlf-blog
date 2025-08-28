@@ -27,11 +27,18 @@
   position: relative;
 }
 
-.button {
+.mainButton {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
   right: $spacing-xxs;
+}
+
+.backButton {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: $spacing-xxs;
 }
 
 .input {
@@ -45,6 +52,7 @@
 }
 
 .inputVisible {
+  padding-left: calc(40px + #{$spacing-sm});
   display: block;
 }
 

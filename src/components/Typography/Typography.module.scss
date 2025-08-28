@@ -30,6 +30,15 @@
   color: $color-neutral-600;
 }
 
+.ellipsis > *,
+.ellipsis.title {
+  display: -webkit-box;
+  -webkit-line-clamp: var(--line-number);
+  line-clamp: var(--line-number);
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
 .title {
   color: $color-primary-400;
 }

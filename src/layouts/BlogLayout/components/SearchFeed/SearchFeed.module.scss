@@ -6,12 +6,11 @@
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: $color-neutral-100;
   left: $spacing-xs;
   right: $spacing-sm;
 
   @media (min-width: $breakpoint-sm) {
     right: $spacing-xxl;
-    left: $spacing-sm;
+    left: $spacing-xxl;
   }
 }

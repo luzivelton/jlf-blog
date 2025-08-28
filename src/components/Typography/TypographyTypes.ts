@@ -19,4 +19,5 @@ export type TypographyProps = TypographyElementProps & {
   children: React.ReactNode
   strong?: boolean
   secondary?: boolean
+  numberOfLines?: number
 }

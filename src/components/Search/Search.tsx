@@ -37,10 +37,6 @@ export function Search({
   const [isFocused, setIsFocused] = React.useState(false)
   const inputRef = React.useRef<HTMLInputElement>(null)
 
-  function handleFocus() {
-    setIsFocused(true)
-  }
-
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     if (onChange) {
       onChange(e.target.value)
@@ -59,12 +55,19 @@ export function Search({
     }
   }, [isFocused, focusInput])
 
-  function handleBack() {
+  function handleBack(e: React.MouseEvent<HTMLButtonElement>) {
+    e.stopPropagation()
+
     setIsFocused(false)
+  }
+
+  function handleFocus() {
+    setIsFocused(true)
   }
 
   function handleClear(e: React.MouseEvent<HTMLButtonElement>) {
     e.stopPropagation()
+
     if (inputRef.current) {
       inputRef.current.value = ''
       focusInput()
@@ -79,25 +82,30 @@ export function Search({
           [classNames?.contentFocused || '']: isFocused,
         })}
       >
-        {isFocused && (
-          <ButtonIcon
-            label='Close search'
-            variant='transparent'
-            onClick={handleBack}
-          >
-            <MdArrowBack />
-          </ButtonIcon>
-        )}
         <div className={styles.inputContainer} onClick={handleFocus}>
+          {isFocused && (
+            <ButtonIcon
+              label='Close search'
+              variant='transparent'
+              onClick={handleBack}
+              className={styles.backButton}
+            >
+              <MdArrowBack />
+            </ButtonIcon>
+          )}
           {!isFocused ? (
-            <ButtonIcon key='search' label='Search' className={styles.button}>
+            <ButtonIcon
+              key='search'
+              label='Search'
+              className={styles.mainButton}
+            >
               <MdSearch />
             </ButtonIcon>
           ) : (
             <ButtonIcon
               key='clear'
               label='Clear'
-              className={styles.button}
+              className={styles.mainButton}
               onClick={handleClear}
               variant='transparent'
               secondary={true}

@@ -1,0 +1,5 @@
+@use '@/styles/tokens/border.scss' as *;
+
+.avatar {
+  border-radius: $radius-full;
+}
