@@ -1,6 +1,6 @@
 import styles from './Dropdown.module.scss'
 import clsx from 'clsx'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Menu } from '@/components/Menu/Menu'
 import { Typography } from '@/components/Typography/Typography'
 import { createPortal } from 'react-dom'
@@ -8,6 +8,8 @@ import type {
   DropdownProps,
   PanelProps,
 } from '@/components/Dropdown/DropdownInterfaces'
+import { useDismissOnScroll } from '@/components/Dropdown/hooks/useDismissOnScroll'
+import { useClickOutside } from '@/components/Dropdown/hooks/useClickOutside'
 
 export function Dropdown<T>({
   container,
@@ -23,36 +25,26 @@ export function Dropdown<T>({
   const triggerRef = React.useRef<HTMLDivElement | null>(null)
   const panelRef = React.useRef<HTMLDivElement | null>(null)
 
+  const onDismiss = React.useCallback(() => {
+    setIsOpen(false)
+  }, [])
+
   function handleToggle() {
     setIsOpen((prev) => !prev)
   }
 
   function handleChange(valueIndex: number) {
-    setIsOpen(false)
+    onDismiss()
     onChange(valueIndex)
   }
 
-  useEffect(() => {
-    const containsTarget = (target: Node, element: HTMLElement | null) =>
-      element && element.contains(target)
-
-    const handleClickOutside = (event: MouseEvent) => {
-      const target = event.target as Node
-      const isClickOutside =
-        !containsTarget(target, triggerRef.current) &&
-        !containsTarget(target, panelRef.current)
-
-      if (isClickOutside) {
-        setIsOpen(false)
-      }
-    }
-
-    document.addEventListener('mousedown', handleClickOutside)
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside)
-    }
-  }, [isOpen])
+  useDismissOnScroll({ onDismiss, isOpen, panelRef })
+  useClickOutside({
+    isOpen,
+    onDismiss,
+    panelRef,
+    triggerRef,
+  })
 
   return (
     <div className={clsx(className)}>
@@ -90,6 +82,7 @@ function Panel<T>({
   return (
     isOpen && (
       <Menu
+        role='listbox'
         className={clsx(
           styles.panel,
           {

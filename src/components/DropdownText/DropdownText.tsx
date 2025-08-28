@@ -24,7 +24,10 @@ export function DropdownText<T>({
       <Dropdown
         container={containerRef.current}
         valueIndex={valueIndex}
-        classNames={{ trigger: styles.trigger, panel: styles.panel }}
+        classNames={{
+          trigger: clsx(styles.trigger, classNames?.trigger),
+          panel: clsx(styles.panel, classNames?.panel),
+        }}
         {...props}
       >
         {!isMobile && (

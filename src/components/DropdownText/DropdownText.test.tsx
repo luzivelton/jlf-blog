@@ -43,14 +43,12 @@ describe('DropdownText', () => {
   })
 
   it('shows the children label only on desktop', () => {
-    // Simulate desktop
     window.innerWidth = 1200
     setup()
     expect(screen.getByText('LabelText')).toBeInTheDocument()
   })
 
   it('does not show the children label on mobile', () => {
-    // Simulate mobile
     window.innerWidth = 500
     setup()
     expect(screen.queryByText('LabelText')).not.toBeInTheDocument()

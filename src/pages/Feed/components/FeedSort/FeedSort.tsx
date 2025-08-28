@@ -14,7 +14,7 @@ export function FeedSort() {
 
   return (
     <DropdownText
-      classNames={{ text: styles.sort }}
+      classNames={{ text: styles.sort, panel: styles.sortPanel }}
       valueIndex={sortBy}
       valueLabel={label}
       options={SORT_OPTIONS}

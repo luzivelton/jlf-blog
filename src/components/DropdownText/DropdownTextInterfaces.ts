@@ -7,5 +7,5 @@ export type DropdownTextProps<T> = Omit<DropdownProps<T>, 'classNames'> & {
   classNames?: {
     content?: string
     text?: string
-  }
+  } & Partial<DropdownProps<T>['classNames']>
 }

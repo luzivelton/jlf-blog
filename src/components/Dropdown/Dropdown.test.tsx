@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, act } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Dropdown } from './Dropdown'
 import { useState } from 'react'
@@ -72,5 +72,44 @@ describe('Dropdown', () => {
     )
     await userEvent.click(screen.getByText('Trigger'))
     expect(screen.getByText(/No options found/i)).toBeInTheDocument()
+  })
+  it('closes panel on scroll on mobile', async () => {
+    Object.defineProperty(window, 'innerWidth', {
+      writable: true,
+      configurable: true,
+      value: 500,
+    })
+    render(
+      <TestDropdown options={options}>
+        <span>Trigger</span>
+      </TestDropdown>
+    )
+    await userEvent.click(screen.getByText('Trigger'))
+    expect(screen.getByText('Option 1')).toBeInTheDocument()
+
+    await act(async () => {
+      document.dispatchEvent(new Event('scroll'))
+    })
+
+    expect(screen.queryByText('Option 1')).not.toBeInTheDocument()
+    Object.defineProperty(window, 'innerWidth', {
+      writable: true,
+      configurable: true,
+      value: 1200,
+    })
+  })
+  it('should not close when scrolling inside the panel', async () => {
+    render(
+      <TestDropdown options={options}>
+        <span>Trigger</span>
+      </TestDropdown>
+    )
+    await userEvent.click(screen.getByText('Trigger'))
+    const panel = screen.getByRole('listbox')
+    expect(panel).toBeInTheDocument()
+
+    panel.dispatchEvent(new Event('scroll', { bubbles: true }))
+
+    expect(screen.getByText('Option 1')).toBeInTheDocument()
   })
 })
