@@ -11,7 +11,9 @@ export function FeedAside() {
 
   return (
     <aside>
-      <Typography variant='h1'>DWS Blog</Typography>
+      <Typography variant='h1' asVariant={true}>
+        DWS Blog
+      </Typography>
       <FeedFilters variant='panel' />
     </aside>
   )

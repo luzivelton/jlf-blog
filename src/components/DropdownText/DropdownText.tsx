@@ -9,7 +9,6 @@ import type { DropdownTextProps } from '@/components/DropdownText/DropdownTextIn
 
 export function DropdownText<T>({
   children,
-  valueIndex,
   valueLabel,
   Icon,
   className,
@@ -23,7 +22,6 @@ export function DropdownText<T>({
     <div ref={containerRef} className={clsx(styles.container, className)}>
       <Dropdown
         container={containerRef.current}
-        valueIndex={valueIndex}
         classNames={{
           trigger: clsx(styles.trigger, classNames?.trigger),
           panel: clsx(styles.panel, classNames?.panel),

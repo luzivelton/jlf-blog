@@ -11,6 +11,19 @@
   border-radius: $radius-lg;
   box-shadow: $shadow-sm;
   overflow: hidden;
+  position: relative;
+  transition:
+    background 0.15s ease-in,
+    box-shadow 0.15s ease-in;
+
+  &:hover {
+    background: $color-neutral-200;
+    box-shadow: $shadow-md;
+  }
+
+  &:focus-within {
+    border: $border-width-base solid $color-accent-400;
+  }
 
   @media (min-width: $breakpoint-md) {
     border: $border-base;
@@ -40,4 +53,10 @@
 
 .title {
   all: unset;
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    cursor: pointer;
+  }
 }

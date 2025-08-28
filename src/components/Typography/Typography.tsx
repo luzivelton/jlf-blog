@@ -15,6 +15,7 @@ export function Typography({
   className,
   numberOfLines,
   style,
+  asVariant,
   ...props
 }: TypographyProps) {
   const VariantComponent = VARIANT_COMPONENT[variant]
@@ -40,19 +41,52 @@ export function Typography({
       )}
       variant={variant}
       style={styleFinal}
+      asVariant={asVariant}
       {...props}
     />
   )
 }
 
-function Body({ className, ...props }: TypographyElementProps) {
-  return <div className={clsx(styles.body, className)} {...props} />
+function Body({
+  className,
+  variant,
+  asVariant,
+  ...props
+}: TypographyElementProps) {
+  const classNameFinal = clsx(styles.body, className)
+
+  if (asVariant) {
+    switch (variant) {
+      case 'bodySmall':
+        return <span className={classNameFinal} {...props} />
+      default:
+        return <p className={classNameFinal} {...props} />
+    }
+  }
+
+  return <span className={clsx(styles.body, className)} {...props} />
 }
 
-function Title({ variant, className, ...props }: TypographyElementProps) {
+function Title({
+  variant,
+  className,
+  asVariant,
+  ...props
+}: TypographyElementProps) {
   const classNameFinal = clsx(styles.title, className)
 
-  return <div className={classNameFinal} {...props} />
+  if (asVariant) {
+    switch (variant) {
+      case 'h1':
+        return <h1 className={classNameFinal} {...props} />
+      case 'h2':
+        return <h2 className={classNameFinal} {...props} />
+      case 'h3':
+        return <h3 className={classNameFinal} {...props} />
+    }
+  }
+
+  return <span className={classNameFinal} {...props} />
 }
 
 const VARIANT_COMPONENT: Record<

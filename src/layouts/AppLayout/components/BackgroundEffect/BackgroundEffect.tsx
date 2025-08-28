@@ -1,14 +1,16 @@
 import { clsx } from 'clsx'
 import styles from './BackgroundEffect.module.scss'
 
+const VARIANTS = ['secondary', 'tertiary', 'primary'] as const
+const CIRCLES_COUNT = 20
+const circlesArray = Array.from({ length: CIRCLES_COUNT })
+
 export function BackgroundEffect() {
   return (
     <div className={styles.container}>
-      <Circle variant='secondary' />
-      <Circle variant='tertiary' />
-      <Circle variant='primary' />
-      <Circle variant='secondary' />
-      <Circle variant='tertiary' />
+      {circlesArray.map((_, index) => (
+        <Circle key={index} variant={VARIANTS[index % VARIANTS.length]} />
+      ))}
     </div>
   )
 }

@@ -10,14 +10,15 @@ export type _variant =
 export type TypographyElementProps =
   React.HTMLAttributes<HTMLParagraphElement> & {
     variant: _variant
+    asVariant?: boolean
   }
 
 export type TypographyElement<T extends TypographyElementProps> =
   React.ElementType<T>
 
 export type TypographyProps = TypographyElementProps & {
-  children: React.ReactNode
   strong?: boolean
   secondary?: boolean
   numberOfLines?: number
+  asVariant?: boolean
 }

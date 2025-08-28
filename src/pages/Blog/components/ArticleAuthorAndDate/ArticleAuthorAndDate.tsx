@@ -19,7 +19,7 @@ function Compact() {
     <div>
       <Typography
         className={styles.compactAuthorAndDate}
-        variant='bodySmall'
+        variant='caption'
         secondary={true}
       >
         <LastName aria-label='Written by' lastName='Doe' />

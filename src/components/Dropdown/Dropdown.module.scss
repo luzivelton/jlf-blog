@@ -3,6 +3,7 @@
 @use '@/styles/tokens/border.scss' as *;
 @use '@/styles/tokens/shadow.scss' as *;
 @use '@/styles/tokens/breakpoints.scss' as *;
+@use '@/styles/tokens/elevation.scss' as *;
 
 .trigger {
   display: flex;
@@ -18,6 +19,7 @@
   border-radius: $radius-lg;
   width: calc(100% - 2em);
   box-shadow: $shadow-sm;
+  z-index: $elevation-high;
 
   @media (min-width: $breakpoint-md) {
     position: absolute;

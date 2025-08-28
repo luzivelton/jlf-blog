@@ -11,16 +11,18 @@ const options = [
 
 function TestDropdownText<T>(props: Partial<DropdownTextProps<T>>) {
   const [valueIndex, setValueIndex] = useState(0)
-  const valueLabel = options[valueIndex].label
+  const selectedOption = options[valueIndex]
+  const valueLabel = selectedOption.label
+  const value = selectedOption.value
 
   return (
     <DropdownText
       {...props}
-      valueIndex={valueIndex}
       onChange={setValueIndex}
       Icon={FaChevronDown}
       options={options}
       valueLabel={valueLabel}
+      value={value}
     >
       {props.children}
     </DropdownText>

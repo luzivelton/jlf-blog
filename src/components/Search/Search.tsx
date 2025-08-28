@@ -139,17 +139,15 @@ function Dropdown({ options, className, isOpen, ...props }: DropdownProps) {
       <Menu className={clsx(styles.dropdown, className)} {...props}>
         {options && options[0] ? (
           options.map((option) => (
-            <Menu.Item key={option.value}>
-              <button>
-                {option.title && (
-                  <Typography variant='body' strong={true}>
-                    {option.title}
-                  </Typography>
-                )}
-                <Typography variant='bodySmall'>
-                  {option.description}
-                </Typography>{' '}
-              </button>
+            <Menu.Item
+              key={option.value}
+              onClick={() => {}}
+              selected={false}
+              value={option.value}
+            >
+              <Typography variant='bodySmall'>
+                {option.description}
+              </Typography>{' '}
             </Menu.Item>
           ))
         ) : (

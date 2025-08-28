@@ -14,21 +14,26 @@
   }
 }
 
-.item {
-  line-height: 1.25rem;
-  font-size: 14px;
+.menu {
   display: flex;
   flex-direction: column;
+}
+
+.item {
+  display: flex;
+  text-align: left;
+  line-height: 1.25rem;
+  font-size: 14px;
   padding: $spacing-xs;
   border-radius: 0;
   @include rounded-corners($radius-lg);
 
   &:hover,
-  &:focus-within {
+  &:focus-within:focus-visible {
     background: $color-neutral-200;
   }
 
-  &:focus-within {
+  &:focus-within:focus-visible {
     outline: $border-width-base solid $color-accent-400;
   }
 
@@ -36,6 +41,11 @@
     border-radius: $radius-lg;
     text-align: left;
   }
+}
+
+.checkIcon {
+  color: $color-accent-300;
+  margin-left: auto;
 }
 
 .empty {

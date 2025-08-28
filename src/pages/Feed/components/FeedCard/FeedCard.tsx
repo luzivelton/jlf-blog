@@ -4,27 +4,49 @@ import { ArticleCategories } from '@/pages/Blog/components/ArticleCategories/Art
 import { ArticleImage } from '@/pages/Blog/components/ArticleImage/ArticleImage'
 import styles from './FeedCard.module.scss'
 import { Link } from '@/components/Link/Link'
+import type { IPost } from '@/interfaces/IPost'
+import clsx from 'clsx'
+import { memo } from 'react'
 
-export function FeedCard() {
+type FeedCardProps = React.JSX.IntrinsicElements['section'] & IPost
+
+const FeedCardInner = ({
+  id,
+  author,
+  authorId,
+  categories,
+  content,
+  createdAt,
+  thumbnail_url,
+  title,
+  updatedAt,
+  className,
+  ...props
+}: FeedCardProps) => {
   return (
-    <section className={styles.container}>
-      <ArticleImage className={styles.image} />
+    <article className={clsx(styles.container, className)} {...props}>
+      <ArticleImage className={styles.image} src={thumbnail_url} alt={title} />
       <div className={styles.content}>
         <ArticleAuthorAndDate variant='compact' />
-        <Typography variant='h3' numberOfLines={2}>
-          <Link className={styles.title} query={{ id: '12' }}>
-            Title
+        <Typography variant='h3' asVariant={true} numberOfLines={2}>
+          <Link className={styles.title} query={{ id }}>
+            {title}
           </Link>
         </Typography>
         <Typography
           className={styles.description}
-          variant='body'
+          variant='bodySmall'
           numberOfLines={2}
         >
-          <p>Description</p>
+          <p>{content}</p>
         </Typography>
-        <ArticleCategories className={styles.categories} />
+        <ArticleCategories
+          className={styles.categories}
+          categories={categories}
+        />
       </div>
-    </section>
+    </article>
   )
 }
+
+export const FeedCard = memo(FeedCardInner)

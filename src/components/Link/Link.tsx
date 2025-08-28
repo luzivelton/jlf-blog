@@ -5,27 +5,25 @@ type LinkProps = {
 } & React.AnchorHTMLAttributes<HTMLAnchorElement>
 
 export function Link({ query, ...props }: LinkProps) {
-  return (
-    <a
-      {...props}
-      onClick={(e) => {
-        const url = new URL(window.location.href)
+  function handleClick(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
+    const url = new URL(window.location.href)
 
-        for (const key in query) {
-          url.searchParams.set(key, query[key])
-        }
+    for (const key in query) {
+      url.searchParams.set(key, query[key])
+    }
 
-        if (e.ctrlKey) {
-          ;(e.target as HTMLAnchorElement).href = url.toString()
-          return
-        }
+    if (e.ctrlKey) {
+      ;(e.target as HTMLAnchorElement).href = url.toString()
+      return
+    }
 
-        const detail: IQueryEventValues = { query }
+    const detail: IQueryEventValues = { query }
+    ;(e.target as HTMLAnchorElement).href = url.toString()
+    e.preventDefault()
 
-        window.dispatchEvent(new CustomEvent('query-change', { detail }))
+    window.dispatchEvent(new CustomEvent('query-change', { detail }))
+    window.history.pushState({}, '', url)
+  }
 
-        window.history.pushState({}, '', url)
-      }}
-    />
-  )
+  return <a href={'#'} {...props} onClick={handleClick} />
 }

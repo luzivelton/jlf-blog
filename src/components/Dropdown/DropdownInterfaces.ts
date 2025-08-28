@@ -1,20 +1,20 @@
 import type { MenuProps } from '@/components/Menu/MenuInterfaces'
 
-type Option<T> = {
+export type DropdownOption<T> = {
   label: string
   value: T
 }
 
 export type CommonProps<T> = Omit<MenuProps, 'onChange'> & {
-  options?: Option<T>[]
+  options?: DropdownOption<T>[]
   position?: 'left' | 'right'
+  value: T
 }
 
 export type DropdownProps<T> = CommonProps<T> & {
-  options?: Option<T>[]
+  options?: DropdownOption<T>[]
   onChange: (valueIndex: number) => void
   container?: HTMLElement | null
-  valueIndex: number
   classNames?: {
     trigger?: string
     panel?: string

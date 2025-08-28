@@ -1,22 +1,42 @@
 import clsx from 'clsx'
 import styles from './Menu.module.scss'
 import { Typography } from '@/components/Typography/Typography'
-import { MdOutlineInfo } from 'react-icons/md'
+import { MdCheck, MdOutlineInfo } from 'react-icons/md'
 import type { MenuProps } from './MenuInterfaces'
 
 export function Menu({ className, ...props }: MenuProps) {
-  return <div className={clsx(className)} {...props}></div>
+  return <div className={clsx(styles.menu, className)} {...props}></div>
 }
 
-Menu.Item = function MenuItem({
+type MenuItemProps<T> = Omit<
+  React.HTMLAttributes<HTMLButtonElement>,
+  'onClick'
+> & {
+  selected: boolean
+  onClick: (value: T) => void
+  value: T
+}
+
+Menu.Item = function MenuItem<T>({
   className,
   children,
+  value,
+  onClick,
+  selected,
   ...props
-}: React.JSX.IntrinsicElements['div']) {
+}: MenuItemProps<T>) {
   return (
-    <div className={clsx(styles.item, className)} {...props}>
-      {children}
-    </div>
+    <button
+      className={clsx(styles.item, className)}
+      {...props}
+      onClick={() => onClick(value)}
+      aria-pressed={selected}
+    >
+      <Typography variant='body' strong={true}>
+        {children}
+      </Typography>
+      {selected && <MdCheck className={styles.checkIcon} />}
+    </button>
   )
 }
 

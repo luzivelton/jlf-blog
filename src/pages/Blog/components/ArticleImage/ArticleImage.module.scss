@@ -6,7 +6,7 @@
   width: 100%;
   background-color: $color-neutral-200;
   border-radius: $radius-lg;
-  object-fit: scale-down;
+  object-fit: cover;
   height: 9.5rem;
 
   @media (min-width: $breakpoint-md) {

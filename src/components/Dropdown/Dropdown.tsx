@@ -2,7 +2,6 @@ import styles from './Dropdown.module.scss'
 import clsx from 'clsx'
 import React, { useState } from 'react'
 import { Menu } from '@/components/Menu/Menu'
-import { Typography } from '@/components/Typography/Typography'
 import { createPortal } from 'react-dom'
 import type {
   DropdownProps,
@@ -14,7 +13,6 @@ import { useClickOutside } from '@/components/Dropdown/hooks/useClickOutside'
 export function Dropdown<T>({
   container,
   children,
-  valueIndex,
   onChange,
   position = 'left',
   classNames,
@@ -75,6 +73,7 @@ function Panel<T>({
   isOpen,
   handleChange,
   position = 'left',
+  value,
   ...props
 }: PanelProps<T>) {
   const hasOptions = options && options[0]
@@ -94,15 +93,18 @@ function Panel<T>({
         {...props}
       >
         {hasOptions ? (
-          options.map((option, index) => (
-            <Menu.Item key={option.label}>
-              <button onClick={() => handleChange(index)}>
-                <Typography variant='body' strong={true}>
-                  {option.label}
-                </Typography>
-              </button>
-            </Menu.Item>
-          ))
+          options.map((option, index) => {
+            return (
+              <Menu.Item
+                key={option.label}
+                onClick={() => handleChange(index)}
+                selected={value === option.value}
+                value={index}
+              >
+                {option.label}
+              </Menu.Item>
+            )
+          })
         ) : (
           <Menu.Empty />
         )}

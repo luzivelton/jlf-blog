@@ -6,9 +6,8 @@ import type { DropdownProps } from '@/components/Dropdown/DropdownInterfaces'
 
 function TestDropdown<T>(props: Partial<DropdownProps<T>>) {
   const [valueIndex, setValueIndex] = useState(0)
-  return (
-    <Dropdown valueIndex={valueIndex} onChange={setValueIndex} {...props} />
-  )
+  const value = props.options ? props.options[valueIndex]?.value : undefined
+  return <Dropdown onChange={setValueIndex} {...props} value={value} />
 }
 
 const options = [
