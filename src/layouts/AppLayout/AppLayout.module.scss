@@ -9,6 +9,12 @@
   padding: $spacing-md $spacing-sm;
 
   @media (min-width: $breakpoint-sm) {
-    padding-inline: $spacing-xl;
+    padding: $spacing-xxl $spacing-xxxxl;
+  }
+
+  @media (min-width: $breakpoint-md) {
+    display: grid;
+    grid-template-columns: 3fr 9fr;
+    gap: $spacing-lg;
   }
 }

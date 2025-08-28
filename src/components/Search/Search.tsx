@@ -2,28 +2,16 @@ import { Input } from '@/components/Input/Input'
 import { MdArrowBack, MdClose, MdSearch } from 'react-icons/md'
 import styles from './Search.module.scss'
 import clsx from 'clsx'
-import React, { useCallback, useEffect, type RefObject } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { ButtonIcon } from '@/components/ButtonIcon/ButtonIcon'
 import { Menu } from '@/components/Menu/Menu'
 import { Typography } from '@/components/Typography/Typography'
 import { createPortal } from 'react-dom'
 import type { MenuProps } from '@/components/Menu/MenuInterfaces'
-
-type ISearchOption = {
-  title?: string
-  description: string
-  value: string
-}
-
-type SearchProps = Omit<React.ComponentProps<'input'>, 'onChange'> & {
-  classNames?: {
-    contentFocused?: string
-  }
-  onChange?: (query: string) => void
-  options?: ISearchOption[]
-  value?: string
-  container?: RefObject<HTMLElement | null>
-}
+import type {
+  ISearchOption,
+  SearchProps,
+} from '@/components/Search/SearchInterfaces'
 
 export function Search({
   className,
@@ -125,8 +113,7 @@ export function Search({
       </div>
       <Portal container={container?.current}>
         <Dropdown
-          value={value}
-          isFocused={isFocused}
+          isOpen={Boolean(isFocused && value)}
           options={options}
           style={
             container?.current
@@ -142,21 +129,13 @@ export function Search({
 }
 
 type DropdownProps = MenuProps & {
-  value?: string
-  isFocused: boolean
   options?: ISearchOption[]
+  isOpen: boolean
 }
 
-function Dropdown({
-  value,
-  isFocused,
-  options,
-  className,
-  ...props
-}: DropdownProps) {
+function Dropdown({ options, className, isOpen, ...props }: DropdownProps) {
   return (
-    value &&
-    isFocused && (
+    isOpen && (
       <Menu className={clsx(styles.dropdown, className)} {...props}>
         {options && options[0] ? (
           options.map((option) => (

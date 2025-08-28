@@ -1,9 +1,9 @@
-import { screen, fireEvent } from '@testing-library/react'
+import { fireEvent, screen } from '@testing-library/react'
 import { Image } from './Image'
 import { render } from '@/__tests__/utils.test'
 
 const fallback = '/images/imageFallback.svg'
-const validSrc = 'https://via.placeholder.com/150'
+const validSrc = 'https://my-image.jpg'
 const invalidSrc = 'invalid-url.jpg'
 
 describe('Image', () => {
@@ -26,10 +26,10 @@ describe('Image', () => {
     expect(img).toHaveAttribute('src', fallback)
   })
 
-  it('should not set fallback if already fallback', () => {
+  it('should not set fallback if already fallback', async () => {
     render(<Image src={fallback} alt='test' />)
     const img = screen.getByAltText('test')
-    fireEvent.error(img)
+    img.dispatchEvent(new Event('error'))
     expect(img).toHaveAttribute('src', fallback)
   })
 })
