@@ -1,9 +1,24 @@
-type _variant = 'panel' | 'inline'
+import type { DropdownOption } from '@/components/Dropdown/DropdownInterfaces'
+import { DropdownButton } from '@/components/DropdownButton/DropdownButton'
 
-type FeedFiltersProps = {
-  variant: _variant
-}
+export function FeedFilters() {}
 
-export function FeedFilters({ variant }: FeedFiltersProps) {
-  return 'filters'
+FeedFilters.Inline = function FeedFiltersInline<T>() {
+  const labelOfSelected = ''
+
+  const categoryOptions: DropdownOption<string>[] = []
+
+  function handleCategory() {}
+
+  return (
+    <div>
+      <DropdownButton
+        label='Category'
+        labelOfSelected={labelOfSelected}
+        onChange={handleCategory}
+        options={categoryOptions}
+        value={''}
+      />
+    </div>
+  )
 }

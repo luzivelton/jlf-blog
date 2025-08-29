@@ -26,9 +26,10 @@ export function ArticleProvider({ children, id }: ArticleProviderProps) {
   const article = useMemo<IArticleContext['article']>(
     () => ({
       ...feedData,
+      id,
       ...articleRaw,
     }),
-    [articleRaw, feedData]
+    [articleRaw, feedData, id]
   )
 
   const value = useMemo<IArticleContext>(

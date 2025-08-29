@@ -8,7 +8,7 @@ export function FeedTopbar() {
 
   return (
     <div className={styles.feedTopbar}>
-      {isMobile && <FeedFilters variant='inline' />}
+      {isMobile && <FeedFilters.Inline />}
       <FeedSort />
     </div>
   )

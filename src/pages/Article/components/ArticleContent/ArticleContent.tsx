@@ -38,7 +38,7 @@ export function ArticleContent() {
           ))}
         </Typography>
         <Divider />
-        <LatestArticles />
+        <LatestArticles articleId={article.id} />
       </div>
     </ArticleLoader>
   )

@@ -1,7 +1,7 @@
-import { QueryProvider } from './components/QueryProvider'
-import { IconProvider } from './components/IconProvider'
+import { QueryProvider } from './QueryProvider/QueryProvider'
+import { IconProvider } from './IconProvider/IconProvider'
+import { ErrorBoundary } from './ErrorBoundary/ErrorBoundary'
 import { BlogProviders } from '@/pages/Blog/providers/BlogProviders'
-import ErrorBoundary from '@/components/ErrorBoundary/ErrorBoundary'
 
 type ProvidersProps = {
   children: React.ReactNode

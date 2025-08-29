@@ -1,20 +1,19 @@
 import { Dropdown } from '@/components/Dropdown/Dropdown'
 import { Typography } from '@/components/Typography/Typography'
-import { useIsMobile } from '@/hooks/useIsMobile'
 import { useRef } from 'react'
 import clsx from 'clsx'
-import type { DropdownTextProps } from '@/components/DropdownText/DropdownTextInterfaces'
-import styles from './DropdownText.module.scss'
+import styles from './DropdownButton.module.scss'
+import type { DropdownButtonProps } from '@/components/DropdownButton/DropdownButtonInterfaces'
+import { MdArrowDownward } from 'react-icons/md'
+import { Button } from '@/components/Button/Button'
 
-export function DropdownText<T>({
-  children,
-  valueLabel,
-  Icon,
+export function DropdownButton<T>({
+  label,
+  labelOfSelected,
   className,
   classNames,
   ...props
-}: DropdownTextProps<T>) {
-  const isMobile = useIsMobile()
+}: DropdownButtonProps<T>) {
   const containerRef = useRef<HTMLDivElement | null>(null)
 
   return (
@@ -27,24 +26,22 @@ export function DropdownText<T>({
         }}
         {...props}
       >
-        {!isMobile && (
-          <Typography variant='bodySmall' secondary={true} strong={true}>
-            {children}
-          </Typography>
-        )}
-        <button className={clsx(styles.content, classNames?.content)}>
+        <Button
+          variant='secondary'
+          className={clsx(styles.content, classNames?.content)}
+        >
           <Typography
             className={clsx(styles.text, classNames?.text)}
             variant='bodySmall'
           >
-            {valueLabel ? String(valueLabel) : '-'}
+            {labelOfSelected ?? label}
           </Typography>
-          <Icon
+          <MdArrowDownward
             size='1rem'
             className={styles.icon}
             data-testid='dropdown-icon'
           />
-        </button>
+        </Button>
       </Dropdown>
     </div>
   )

@@ -1,7 +1,7 @@
-import ErrorBoundary from '@/components/ErrorBoundary/ErrorBoundary'
+import { ErrorBoundary } from '@/providers/ErrorBoundary/ErrorBoundary'
 import { ArticleContent } from '@/pages/Article/components/ArticleContent/ArticleContent'
 import { ArticleLayout } from '@/pages/Article/components/ArticleLayout/ArticleLayout'
-import { ArticleProvider } from '@/providers/components/ArticleProvider'
+import { ArticleProvider } from '@/providers/ArticleProvider/ArticleProvider'
 
 type ArticleProps = {
   id: string

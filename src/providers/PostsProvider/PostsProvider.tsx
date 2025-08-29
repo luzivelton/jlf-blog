@@ -15,6 +15,9 @@ export function PostsProvider({ children }: PostsProviderProps) {
   const sortType = POSTS_SORT_OPTIONS[sortTypeIndex]?.value
   const sortTypeLabel = POSTS_SORT_OPTIONS[sortTypeIndex]?.label || 'Unknown'
 
+  const [selectedAuthors, setSelectedAuthors] = useState<string[]>([])
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([])
+
   const postsSorted = useMemo(() => {
     if (!postsRaw) return []
 
@@ -67,6 +70,20 @@ export function PostsProvider({ children }: PostsProviderProps) {
     []
   )
 
+  const updateCategories = useCallback<IPostsContext['updateCategories']>(
+    (newCategoryIds) => {
+      setSelectedCategories(newCategoryIds)
+    },
+    []
+  )
+
+  const updateAuthors = useCallback<IPostsContext['updateAuthors']>(
+    (newAuthorIds) => {
+      setSelectedAuthors(newAuthorIds)
+    },
+    []
+  )
+
   const value = useMemo<IPostsContext>(
     (): IPostsContext => ({
       posts: postsSorted ?? [],
@@ -77,6 +94,10 @@ export function PostsProvider({ children }: PostsProviderProps) {
       sortTypeLabel,
       updateSortType,
       sortType,
+      selectedAuthors,
+      selectedCategories,
+      updateAuthors,
+      updateCategories,
     }),
     [
       postsSorted,
@@ -87,6 +108,10 @@ export function PostsProvider({ children }: PostsProviderProps) {
       sortTypeLabel,
       updateSortType,
       sortType,
+      selectedAuthors,
+      selectedCategories,
+      updateAuthors,
+      updateCategories,
     ]
   )
 

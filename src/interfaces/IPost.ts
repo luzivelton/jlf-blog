@@ -19,6 +19,10 @@ export interface IPostsContext {
   error: Error | null
   sortTypeLabel: string
   sortType: _sortType
+  selectedCategories: string[]
+  selectedAuthors: string[]
+  updateCategories: (newCategoryIds: string[]) => void
+  updateAuthors: (newAuthorIds: string[]) => void
   updateSortType: (newSortType: number) => void
   getPostById: (id: string) => IPost
   getPostsByAuthor: (authorId: string) => IPost[]

@@ -1,4 +1,4 @@
-import { PostsProvider } from '@/providers/components/PostsProvider'
+import { PostsProvider } from '@/providers/PostsProvider/PostsProvider'
 
 type BlogProvidersProps = {
   children: React.ReactNode

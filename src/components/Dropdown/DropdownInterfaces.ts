@@ -12,7 +12,7 @@ export type CommonProps<T> = Omit<MenuProps, 'onChange'> & {
 }
 
 export type DropdownProps<T> = CommonProps<T> & {
-  options?: DropdownOption<T>[]
+  options: DropdownOption<T>[]
   onChange: (valueIndex: number) => void
   container?: HTMLElement | null
   classNames?: {

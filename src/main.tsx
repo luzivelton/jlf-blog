@@ -1,6 +1,6 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import { Providers } from '@/providers/Providers'
+import { Providers } from '@/providers'
 import { Blog } from '@/pages/Blog/Blog'
 import './styles/index.scss'
 

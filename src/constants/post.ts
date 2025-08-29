@@ -7,3 +7,5 @@ export const POSTS_SORT_OPTIONS: DropdownOption<_sortType>[] = [
   { label: 'Title A-Z', value: 'title_asc' },
   { label: 'Title Z-A', value: 'title_desc' },
 ]
+
+export const DEFAULT_POSTS_SORT_OPTION = POSTS_SORT_OPTIONS[0]
