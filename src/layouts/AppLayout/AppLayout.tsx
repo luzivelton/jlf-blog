@@ -13,12 +13,16 @@ export function AppLayout({ children, className, ...props }: AppLayoutProps) {
   )
 }
 
-type ContentProps = {
+type ContentProps = React.JSX.IntrinsicElements['main'] & {
   children: React.ReactNode
 }
 
-function Content({ children }: ContentProps) {
-  return <main className={styles.content}>{children}</main>
+function Content({ children, className, ...props }: ContentProps) {
+  return (
+    <main className={clsx(styles.content, className)} {...props}>
+      {children}
+    </main>
+  )
 }
 
 AppLayout.Topbar = Topbar

@@ -25,12 +25,6 @@ export function Search({
   const [isFocused, setIsFocused] = React.useState(false)
   const inputRef = React.useRef<HTMLInputElement>(null)
 
-  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    if (onChange) {
-      onChange(e.target.value)
-    }
-  }
-
   const focusInput = useCallback(() => {
     if (inputRef.current) {
       inputRef.current.focus()
@@ -42,6 +36,12 @@ export function Search({
       focusInput()
     }
   }, [isFocused, focusInput])
+
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    if (onChange) {
+      onChange(e.target.value)
+    }
+  }
 
   function handleBack(e: React.MouseEvent<HTMLButtonElement>) {
     e.stopPropagation()
@@ -61,6 +61,14 @@ export function Search({
       focusInput()
     }
     if (onChange) onChange('')
+  }
+
+  function handleEscape(e: React.KeyboardEvent<HTMLInputElement>) {
+    if (e.key === 'Escape') {
+      setIsFocused(false)
+      if (inputRef && inputRef.current) inputRef.current.blur()
+      if (onChange) onChange('')
+    }
   }
 
   return (
@@ -107,6 +115,7 @@ export function Search({
               [styles.inputVisible]: isFocused,
             })}
             onChange={handleChange}
+            onKeyDown={handleEscape}
             {...rest}
           />
         </div>

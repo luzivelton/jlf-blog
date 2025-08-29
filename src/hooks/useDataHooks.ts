@@ -25,7 +25,7 @@ export function useCategoriesData() {
   })
 }
 
-export function usePostData(id: string) {
+export function useArticleData(id: string) {
   return useQuery({
     queryKey: ['post', id],
     queryFn: () => api.get<IPost>(`posts/${id}`).then((res) => res.data),

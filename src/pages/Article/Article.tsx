@@ -1,10 +1,20 @@
-import { BlogLayout } from '@/layouts/BlogLayout/BlogLayout'
-import { ArticleAside } from '@/pages/Article/components/ArticleAside/ArticleAside'
+import ErrorBoundary from '@/components/ErrorBoundary/ErrorBoundary'
+import { ArticleContent } from '@/pages/Article/components/ArticleContent/ArticleContent'
+import { ArticleLayout } from '@/pages/Article/components/ArticleLayout/ArticleLayout'
+import { ArticleProvider } from '@/providers/components/ArticleProvider'
 
-export function Article() {
+type ArticleProps = {
+  id: string
+}
+
+export function Article({ id }: ArticleProps) {
   return (
-    <BlogLayout>
-      <ArticleAside />
-    </BlogLayout>
+    <ArticleProvider id={id}>
+      <ArticleLayout>
+        <ErrorBoundary>
+          <ArticleContent />
+        </ErrorBoundary>
+      </ArticleLayout>
+    </ArticleProvider>
   )
 }

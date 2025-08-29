@@ -2,42 +2,45 @@ import { Image } from '@/components/Image/Image'
 import { Typography } from '@/components/Typography/Typography'
 import { formatDate } from '@/utils/formatDate/formatDate'
 import styles from './ArticleAuthorAndDate.module.scss'
+import type { IPost } from '@/interfaces/IPost'
 
-type ArticleAuthorAndDateProps = React.HTMLAttributes<HTMLDivElement> & {
-  variant: 'compact' | 'detailed'
+type ContentProps = Pick<IPost, 'createdAt'> & {
+  authorName: string
 }
 
-export function ArticleAuthorAndDate({ variant }: ArticleAuthorAndDateProps) {
-  if (variant === 'detailed') {
-    return <Detailed />
-  }
-
-  return <Compact />
+type DetailedProps = ContentProps & {
+  authorImage: string
 }
-function Compact() {
+
+export function ArticleAuthorAndDate() {}
+
+ArticleAuthorAndDate.Compact = function Compact({
+  authorName,
+  createdAt,
+}: ContentProps) {
   return (
     <div>
-      <Typography
-        className={styles.compactAuthorAndDate}
-        variant='caption'
-        secondary={true}
-      >
-        <LastName aria-label='Written by' lastName='Doe' />
-        <Date date='2023-10-01' />
+      <Typography className={styles.compact} variant='caption' secondary={true}>
+        <LastName aria-label='Written by' lastName={authorName} />
+        <Date date={createdAt} />
       </Typography>
     </div>
   )
 }
-function Detailed() {
+ArticleAuthorAndDate.Detailed = function Detailed({
+  authorName,
+  createdAt,
+  authorImage,
+}: DetailedProps) {
   return (
-    <div>
-      <Image src='/images/avatars/avatar.png' avatar={true} />
-      <div>
-        <Typography variant='body'>
-          Written by: <LastName lastName='Doe' />
+    <div className={styles.detailed}>
+      <Image src={authorImage} avatar={true} />
+      <div className={styles.textContent}>
+        <Typography variant='caption'>
+          Written by: <LastName lastName={authorName} />
         </Typography>
-        <Typography variant='body' secondary={true}>
-          <Date date='2023-10-01' />
+        <Typography variant='caption' secondary={true}>
+          <Date date={createdAt} />
         </Typography>
       </div>
     </div>

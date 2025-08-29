@@ -12,7 +12,8 @@ export function SearchFeed({ container }: SearchFeedProps) {
   return (
     <Search
       container={container}
-      classNames={{ contentFocused: styles.searchFocused }}
+      className={styles.search}
+      classNames={{ contentFocused: styles.focused }}
       placeholder='Search'
       value={value}
       onChange={(val) => setValue(val)}

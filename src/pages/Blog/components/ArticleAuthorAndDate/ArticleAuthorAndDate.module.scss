@@ -3,7 +3,7 @@
 @use '@/styles/tokens/typography.scss' as *;
 @use '@/styles/tokens/breakpoints.scss' as *;
 
-.compactAuthorAndDate {
+.compact {
   display: flex;
   align-items: center;
   gap: $spacing-xxxs;
@@ -19,4 +19,16 @@
   @media (min-width: $breakpoint-md) {
     font-size: $font-size-sm;
   }
+}
+
+.detailed {
+  display: flex;
+}
+
+.textContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: $spacing-sm;
+  gap: $spacing-xxxs;
 }

@@ -27,7 +27,10 @@ const FeedCardInner = ({
     <article className={clsx(styles.container, className)} {...props}>
       <ArticleImage className={styles.image} src={thumbnail_url} alt={title} />
       <div className={styles.content}>
-        <ArticleAuthorAndDate variant='compact' />
+        <ArticleAuthorAndDate.Compact
+          authorName={author.name}
+          createdAt={createdAt}
+        />
         <Typography variant='h3' asVariant={true} numberOfLines={2}>
           <Link className={styles.title} query={{ id }}>
             {title}

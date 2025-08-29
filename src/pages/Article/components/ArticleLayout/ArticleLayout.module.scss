@@ -1,0 +1,8 @@
+@use '@/styles/tokens/spacing.scss' as *;
+
+.container {
+  display: grid;
+  gap: $spacing-md;
+
+  grid-template-columns: 2fr 10fr;
+}
