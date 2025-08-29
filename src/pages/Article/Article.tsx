@@ -1,3 +1,10 @@
+import { BlogLayout } from '@/layouts/BlogLayout/BlogLayout'
+import { ArticleAside } from '@/pages/Article/components/ArticleAside/ArticleAside'
+
 export function Article() {
-  return <article>Article</article>
+  return (
+    <BlogLayout>
+      <ArticleAside />
+    </BlogLayout>
+  )
 }

@@ -21,7 +21,7 @@
     box-shadow: $shadow-md;
   }
 
-  &:focus-within {
+  &:focus-within:focus-visible {
     border: $border-width-base solid $color-accent-400;
   }
 

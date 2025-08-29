@@ -1,6 +1,8 @@
 @use '@/styles/tokens/colors.scss' as *;
 @use '@/styles/tokens/spacing.scss' as *;
 @use '@/styles/tokens/border.scss' as *;
+@use '@/styles/tokens/typography.scss' as *;
+@use '@/styles/tokens/breakpoints.scss' as *;
 
 .button {
   display: inline-flex;
@@ -18,7 +20,7 @@
     border 0.2s;
 }
 
-.variantPrimary {
+.primary {
   background: $color-secondary-400;
   color: $color-neutral-100;
 
@@ -27,4 +29,21 @@
     background: $color-secondary-500;
     color: $color-neutral-100;
   }
+}
+
+.secondary {
+  background: transparent;
+  color: $color-secondary-400;
+  border: $border-width-base solid $color-secondary-400;
+
+  &:hover {
+    color: $color-secondary-500;
+
+    border-color: $color-secondary-500;
+  }
+}
+
+.small {
+  padding: $spacing-xs $spacing-md;
+  line-height: $line-height-sm;
 }
