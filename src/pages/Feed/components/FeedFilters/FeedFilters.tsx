@@ -4,23 +4,42 @@ import { useMemo } from 'react'
 import styles from './FeedFilters.module.scss'
 import { RadioGroup } from '@/components/RadioGroup/RadioGroup'
 import type { DropdownButtonProps } from '@/components/DropdownButton/DropdownButtonInterfaces'
+import { Typography } from '@/components/Typography/Typography'
+import { MdTune } from 'react-icons/md'
+import { Button } from '@/components/Button/Button'
+import type { IFilterEvent } from '@/interfaces/IFilters'
+
+type FeedFiltersProps = {
+  onChange: (filter?: IFilterEvent) => void
+}
 
 export function FeedFilters() {}
 
-FeedFilters.Inline = function FeedFiltersInline() {
+FeedFilters.Inline = function FeedFiltersInline({
+  onChange,
+}: FeedFiltersProps) {
   return (
     <div className={styles.inline}>
-      <CategoryFilter variant='inline' />
-      <AuthorFilter variant='inline' />
+      <CategoryFilter variant='inline' onChange={onChange} />
+      <AuthorFilter variant='inline' onChange={onChange} />
     </div>
   )
 }
 
-FeedFilters.Panel = function FeedFiltersPanel() {
+FeedFilters.Panel = function FeedFiltersPanel({ onChange }: FeedFiltersProps) {
   return (
     <div className={styles.panel}>
+      <header className={styles.header}>
+        <MdTune />
+        <Typography variant='h3' asVariant={true}>
+          Filters
+        </Typography>
+      </header>
       <CategoryFilter variant='panel' />
       <AuthorFilter variant='panel' />
+      <Button className={styles.apply} onClick={() => onChange()}>
+        Apply filters
+      </Button>
     </div>
   )
 }
@@ -29,7 +48,10 @@ type FilterElementProps = {
   variant: 'panel' | 'inline'
 }
 
-function AuthorFilter({ variant }: FilterElementProps) {
+function AuthorFilter({
+  variant,
+  onChange,
+}: FilterElementProps & Partial<FeedFiltersProps>) {
   const {
     authorOptions,
     selectedAuthors,
@@ -43,12 +65,20 @@ function AuthorFilter({ variant }: FilterElementProps) {
     [selectedAuthors, getAuthorById]
   )
 
+  function handleChange(value: string) {
+    const props = updateAuthors(value)
+
+    if (onChange) {
+      onChange(props)
+    }
+  }
+
   return (
     <VariantFilter
       variant={variant}
       label='Author'
       labelOfSelected={labelOfSelected}
-      onChange={updateAuthors}
+      onChange={handleChange}
       options={authorOptions}
       value={selectedAuthors}
       multiple={true}
@@ -68,7 +98,10 @@ function VariantFilter<T, M extends boolean | undefined>({
   )
 }
 
-function CategoryFilter({ variant }: FilterElementProps) {
+function CategoryFilter({
+  variant,
+  onChange,
+}: FilterElementProps & Partial<FeedFiltersProps>) {
   const {
     categoryOptions,
     selectedCategories,
@@ -82,12 +115,20 @@ function CategoryFilter({ variant }: FilterElementProps) {
     [selectedCategories, getCategoryById]
   )
 
+  function handleChange(value: string) {
+    const props = updateCategories(value)
+
+    if (onChange) {
+      onChange(props)
+    }
+  }
+
   return (
     <VariantFilter
       variant={variant}
       label='Category'
       labelOfSelected={labelOfSelected}
-      onChange={updateCategories}
+      onChange={handleChange}
       options={categoryOptions}
       value={selectedCategories}
       multiple={true}

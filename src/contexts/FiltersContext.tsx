@@ -1,18 +1,20 @@
 import React from 'react'
-import type { IFiltersContext } from '@/interfaces/IFilters'
+import type { IFilterEvent, IFiltersContext } from '@/interfaces/IFilters'
 
 const INITIAL_STATE: IFiltersContext = {
   selectedCategories: [],
   categoryOptions: [],
-  updateCategories: () => {},
+  updateCategories: () => ({}) as unknown as IFilterEvent,
   getCategoryById: () => undefined,
   categoryIsLoading: false,
 
   authorOptions: [],
   selectedAuthors: [],
-  updateAuthors: () => {},
+  updateAuthors: () => ({}) as unknown as IFilterEvent,
   getAuthorById: () => undefined,
   authorIsLoading: false,
+  filterByAuthor: () => [],
+  filterByCategory: () => [],
 }
 
 export const FiltersContext =

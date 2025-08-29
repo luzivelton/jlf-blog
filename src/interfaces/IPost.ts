@@ -17,10 +17,9 @@ export interface IPostsContext {
   posts: IPost[]
   isLoading: boolean
   error: Error | null
-  selectedAuthors: string[]
-  updateAuthors: (newAuthorIds: string[]) => void
   getPostById: (id: string) => IPost
-  getPostsByAuthor: (authorId: string) => IPost[]
+  updatePosts: (newPosts: IPost[]) => void
+  postsRaw: IPost[] | undefined
 }
 
 export type _sortType = 'date_asc' | 'date_desc' | 'title_asc' | 'title_desc'

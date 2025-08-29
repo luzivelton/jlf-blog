@@ -27,6 +27,7 @@
 .primary {
   background: $color-secondary-400;
   color: $color-neutral-100;
+  border: $border-width-base solid $color-secondary-400;
 
   &:hover,
   &:focus-visible {

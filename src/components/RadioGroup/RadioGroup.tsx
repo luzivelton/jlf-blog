@@ -17,6 +17,7 @@ export function RadioGroup<T, M extends boolean | undefined>({
   value,
   label,
   loading,
+  labelOfSelected,
   ...props
 }: RadioGroupProps<T, M>) {
   const hasOptions = options && options[0]
@@ -27,7 +28,9 @@ export function RadioGroup<T, M extends boolean | undefined>({
 
   return (
     <div>
-      <Typography variant='caption'>{label}</Typography>
+      <Typography variant='body' strong={true}>
+        {label}
+      </Typography>
       {loading ? (
         <Loading />
       ) : (

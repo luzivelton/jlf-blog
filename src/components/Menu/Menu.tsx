@@ -32,9 +32,7 @@ Menu.Item = function MenuItem<T>({
       onClick={() => onClick(value)}
       aria-pressed={selected}
     >
-      <Typography variant='body' strong={true}>
-        {children}
-      </Typography>
+      <Typography variant='body'>{children}</Typography>
       {selected && <MdCheck className={styles.checkIcon} />}
     </button>
   )

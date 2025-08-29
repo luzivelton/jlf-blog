@@ -3,6 +3,7 @@ import { Typography } from '@/components/Typography/Typography'
 import { formatDate } from '@/utils/formatDate/formatDate'
 import styles from './ArticleAuthorAndDate.module.scss'
 import type { IPost } from '@/interfaces/IPost'
+import { getLastName } from '@/utils/getLastName/getLastName'
 
 type ContentProps = Pick<IPost, 'createdAt'> & {
   authorName: string
@@ -60,5 +61,5 @@ interface LastNameProps {
 }
 
 function LastName({ lastName }: LastNameProps) {
-  return <span>{lastName}</span>
+  return <span>{getLastName(lastName)}</span>
 }

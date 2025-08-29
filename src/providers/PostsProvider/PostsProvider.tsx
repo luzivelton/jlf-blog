@@ -1,4 +1,10 @@
-import { useCallback, useMemo, useState, type ReactNode } from 'react'
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+  type ReactNode,
+} from 'react'
 import type { IPost, IPostsContext } from '@/interfaces/IPost'
 import { usePostsData } from '@/hooks/useDataHooks'
 import { PostsContext } from '@/contexts/PostsContext'
@@ -11,33 +17,22 @@ type PostsProviderProps = {
 
 export function PostsProvider({ children }: PostsProviderProps) {
   const { data: postsRaw, isLoading, error } = usePostsData()
+  const [posts, setPosts] = useState<IPost[]>(postsRaw ?? [])
   const { selectedSort } = useSort()
-  const [selectedAuthors, setSelectedAuthors] = useState<string[]>([])
 
   const postsSorted = useMemo(() => {
-    if (!postsRaw) return []
+    if (!posts) return []
 
-    const result = sortPosts(postsRaw, selectedSort)
+    const result = sortPosts(posts, selectedSort)
 
     return result
-  }, [postsRaw, selectedSort])
+  }, [posts, selectedSort])
 
   const postsIdMap = useMemo(() => {
     const map = new Map<string, IPost>()
-    postsRaw?.forEach((post) => map.set(post.id, post))
+    posts?.forEach((post) => map.set(post.id, post))
     return map
-  }, [postsRaw])
-
-  const postsAuthorMap = useMemo(() => {
-    const map = new Map<string, IPost[]>()
-    postsRaw?.forEach((post) => {
-      if (!map.has(post.authorId)) {
-        map.set(post.authorId, [])
-      }
-      map.get(post.authorId)?.push(post)
-    })
-    return map
-  }, [postsRaw])
+  }, [posts])
 
   const getPostById = useCallback(
     (id: string): IPost => {
@@ -47,20 +42,15 @@ export function PostsProvider({ children }: PostsProviderProps) {
     [postsIdMap]
   )
 
-  const getPostsByAuthor = useCallback(
-    (authorId: string): IPost[] => {
-      const targetMap = postsAuthorMap
-      return targetMap.get(authorId) ?? []
-    },
-    [postsAuthorMap]
-  )
+  const updatePosts = useCallback((posts: IPost[]) => {
+    setPosts(posts)
+  }, [])
 
-  const updateAuthors = useCallback<IPostsContext['updateAuthors']>(
-    (newAuthorIds) => {
-      setSelectedAuthors(newAuthorIds)
-    },
-    []
-  )
+  useEffect(() => {
+    if (postsRaw) {
+      updatePosts(postsRaw)
+    }
+  }, [postsRaw, updatePosts])
 
   const value = useMemo<IPostsContext>(
     (): IPostsContext => ({
@@ -68,19 +58,10 @@ export function PostsProvider({ children }: PostsProviderProps) {
       isLoading,
       error,
       getPostById,
-      getPostsByAuthor,
-      selectedAuthors,
-      updateAuthors,
+      updatePosts,
+      postsRaw,
     }),
-    [
-      postsSorted,
-      isLoading,
-      getPostById,
-      getPostsByAuthor,
-      error,
-      selectedAuthors,
-      updateAuthors,
-    ]
+    [postsSorted, isLoading, getPostById, error, updatePosts, postsRaw]
   )
 
   return <PostsContext.Provider value={value}>{children}</PostsContext.Provider>

@@ -1,8 +1,14 @@
 import { useCallback, useMemo, useState, type ReactNode } from 'react'
 import { useAuthorsData, useCategoriesData } from '@/hooks/useDataHooks'
 import { FiltersContext } from '@/contexts/FiltersContext'
-import type { IFiltersContext, ICategory } from '@/interfaces/IFilters'
+import type {
+  IFiltersContext,
+  ICategory,
+  IFilterEvent,
+} from '@/interfaces/IFilters'
 import type { IAuthor } from '@/interfaces/IAuthor'
+import { getLastName } from '@/utils/getLastName/getLastName'
+import type { IPost } from '@/interfaces/IPost'
 
 type FiltersProviderProps = {
   children: ReactNode
@@ -15,6 +21,7 @@ export function FiltersProvider({ children }: FiltersProviderProps) {
     updateCategories,
     getCategoryById,
     categoryIsLoading,
+    filterByCategory,
   } = useCategoryFilter()
 
   const {
@@ -23,6 +30,7 @@ export function FiltersProvider({ children }: FiltersProviderProps) {
     updateAuthors,
     getAuthorById,
     authorIsLoading,
+    filterByAuthor,
   } = useAuthorFilter()
 
   const value = useMemo<IFiltersContext>(
@@ -32,12 +40,14 @@ export function FiltersProvider({ children }: FiltersProviderProps) {
       updateCategories,
       getCategoryById,
       categoryIsLoading,
+      filterByCategory,
 
       selectedAuthors,
       authorOptions,
       updateAuthors,
       getAuthorById,
       authorIsLoading,
+      filterByAuthor,
     }),
     [
       selectedCategories,
@@ -50,6 +60,8 @@ export function FiltersProvider({ children }: FiltersProviderProps) {
       getAuthorById,
       authorIsLoading,
       categoryIsLoading,
+      filterByAuthor,
+      filterByCategory,
     ]
   )
 
@@ -77,7 +89,7 @@ function useAuthorFilter() {
     () =>
       authors
         ? authors.map((author) => ({
-            label: author.name,
+            label: getLastName(author.name),
             value: author.id,
           }))
         : [],
@@ -85,16 +97,33 @@ function useAuthorFilter() {
   )
 
   const updateAuthors = useCallback(
-    (changedItem: string) => {
+    (changedItem: string): IFilterEvent => {
       const isAdding = !selectedAuthors.includes(changedItem)
 
       if (isAdding) {
-        setSelectedAuthors((prev) => [...prev, changedItem])
+        setSelectedAuthors((prev) => addToList(prev, changedItem))
+
+        return {
+          updatedAuthors: addToList(selectedAuthors, changedItem),
+        }
       } else {
-        setSelectedAuthors((prev) => prev.filter((id) => id !== changedItem))
+        setSelectedAuthors((prev) => removeFromList(prev, changedItem))
+
+        return {
+          updatedAuthors: removeFromList(selectedAuthors, changedItem),
+        }
       }
     },
     [selectedAuthors]
+  )
+
+  const filterByAuthor = useCallback(
+    (posts: IPost[], selectedAuthors: string[]): IPost[] => {
+      if (selectedAuthors.length === 0) return posts
+
+      return posts.filter((post) => selectedAuthors.includes(post.authorId))
+    },
+    []
   )
 
   return {
@@ -103,6 +132,7 @@ function useAuthorFilter() {
     updateAuthors,
     getAuthorById,
     authorIsLoading,
+    filterByAuthor,
   }
 }
 
@@ -133,16 +163,37 @@ function useCategoryFilter() {
   )
 
   const updateCategories = useCallback(
-    (changedItem: string) => {
+    (changedItem: string): IFilterEvent => {
       const isAdding = !selectedCategories.includes(changedItem)
 
       if (isAdding) {
-        setSelectedCategories((prev) => [...prev, changedItem])
+        setSelectedCategories((prev) => addToList(prev, changedItem))
+
+        return {
+          updatedCategories: addToList(selectedCategories, changedItem),
+        }
       } else {
-        setSelectedCategories((prev) => prev.filter((id) => id !== changedItem))
+        setSelectedCategories((prev) => removeFromList(prev, changedItem))
+
+        return {
+          updatedCategories: removeFromList(selectedCategories, changedItem),
+        }
       }
     },
     [selectedCategories]
+  )
+
+  const filterByCategory = useCallback(
+    (posts: IPost[], selectedCategories: string[]): IPost[] => {
+      if (selectedCategories.length === 0) return posts
+
+      return posts.filter((post) =>
+        post.categories.some((category) =>
+          selectedCategories.includes(category.id)
+        )
+      )
+    },
+    []
   )
 
   return {
@@ -151,5 +202,14 @@ function useCategoryFilter() {
     updateCategories,
     getCategoryById,
     categoryIsLoading,
+    filterByCategory,
   }
+}
+
+function addToList(list: string[], item: string) {
+  return [...list, item]
+}
+
+function removeFromList(list: string[], item: string) {
+  return list.filter((id) => id !== item)
 }
