@@ -1,27 +1,28 @@
 import { api } from '@/api/api'
 import type { IPost } from '@/interfaces/IPost'
 import type { IAuthor } from '@/interfaces/IAuthor'
-import type { ICategory } from '@/interfaces/ICategories'
+import type { ICategory } from '@/interfaces/IFilters'
 import { useQuery } from '@tanstack/react-query'
 
 export function usePostsData() {
   return useQuery({
     queryKey: ['posts'],
-    queryFn: () => api.get<IPost[]>('posts').then((res) => res.data),
+    queryFn: () => api.get<IPost[]>('posts').then((res) => res.data ?? []),
   })
 }
 
 export function useAuthorsData() {
   return useQuery({
     queryKey: ['authors'],
-    queryFn: () => api.get<IAuthor[]>('authors').then((res) => res.data),
+    queryFn: () => api.get<IAuthor[]>('authors').then((res) => res.data ?? []),
   })
 }
 
 export function useCategoriesData() {
   return useQuery({
     queryKey: ['categories'],
-    queryFn: () => api.get<ICategory[]>('categories').then((res) => res.data),
+    queryFn: () =>
+      api.get<ICategory[]>('categories').then((res) => res.data ?? []),
   })
 }
 

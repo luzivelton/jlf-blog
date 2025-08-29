@@ -1,7 +1,7 @@
 import { Tag } from '@/components/Tag/Tag'
 import styles from './ArticleCategories.module.scss'
 import { clsx } from 'clsx'
-import type { ICategory } from '@/interfaces/ICategories'
+import type { ICategory } from '@/interfaces/IFilters'
 
 type ArticleCategoriesProps = React.HTMLAttributes<HTMLDivElement> & {
   categories: ICategory[]

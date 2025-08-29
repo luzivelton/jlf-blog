@@ -1,20 +1,26 @@
 import { TbArrowsSort } from 'react-icons/tb'
 import { DropdownText } from '@/components/DropdownText/DropdownText'
 import styles from './FeedSort.module.scss'
-import { usePosts } from '@/pages/Feed/hooks/usePosts'
-import { POSTS_SORT_OPTIONS } from '@/constants/post'
+import { DEFAULT_POSTS_SORT_OPTION, POSTS_SORT_OPTIONS } from '@/constants/post'
+import { useSort } from '@/pages/Feed/hooks/useSort'
+import { useMemo } from 'react'
 
 export function FeedSort() {
-  const { sortTypeLabel, sortType, updateSortType } = usePosts()
+  const { selectedSort, updateSort, getSortById } = useSort()
+  const sortLabel = useMemo(
+    () => getSortById(selectedSort)?.label || DEFAULT_POSTS_SORT_OPTION.label,
+    [selectedSort, getSortById]
+  )
 
   return (
     <DropdownText
       classNames={{ text: styles.sort, panel: styles.sortPanel }}
-      valueLabel={sortTypeLabel}
+      valueLabel={sortLabel}
       options={POSTS_SORT_OPTIONS}
-      onChange={updateSortType}
+      onChange={updateSort}
       Icon={TbArrowsSort}
-      value={sortType}
+      value={selectedSort}
+      multiple={false}
     >
       Sort by:
     </DropdownText>

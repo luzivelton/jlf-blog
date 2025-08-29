@@ -5,15 +5,26 @@ export type DropdownOption<T> = {
   value: T
 }
 
-export type CommonProps<T> = Omit<MenuProps, 'onChange'> & {
+export type ValueType<T, M extends boolean | undefined> = M extends true
+  ? T[]
+  : T
+
+export type CommonProps<T, M extends boolean | undefined> = Omit<
+  MenuProps,
+  'onChange'
+> & {
   options?: DropdownOption<T>[]
   position?: 'left' | 'right'
-  value: T
+  multiple?: M
+  value: ValueType<T, M>
 }
 
-export type DropdownProps<T> = CommonProps<T> & {
+export type DropdownProps<T, M extends boolean | undefined> = CommonProps<
+  T,
+  M
+> & {
   options: DropdownOption<T>[]
-  onChange: (valueIndex: number) => void
+  onChange: (value: T) => void
   container?: HTMLElement | null
   classNames?: {
     trigger?: string
@@ -21,7 +32,10 @@ export type DropdownProps<T> = CommonProps<T> & {
   }
 }
 
-export type PanelProps<T> = CommonProps<T> & {
+export type PanelProps<T, M extends boolean | undefined = false> = CommonProps<
+  T,
+  M
+> & {
   isOpen: boolean
-  handleChange: (valueIndex: number) => void
+  handleChange: (value: T) => void
 }

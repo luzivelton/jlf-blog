@@ -14,7 +14,7 @@ export function FeedAside() {
       <Typography variant='h1' asVariant={true}>
         DWS Blog
       </Typography>
-      <FeedFilters variant='panel' />
+      <FeedFilters.Panel />
     </aside>
   )
 }

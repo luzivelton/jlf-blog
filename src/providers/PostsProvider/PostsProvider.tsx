@@ -3,7 +3,7 @@ import type { IPost, IPostsContext } from '@/interfaces/IPost'
 import { usePostsData } from '@/hooks/useDataHooks'
 import { PostsContext } from '@/contexts/PostsContext'
 import { sortPosts } from '@/pages/Feed/utils/sortPosts'
-import { POSTS_SORT_OPTIONS } from '@/constants/post'
+import { useSort } from '@/pages/Feed/hooks/useSort'
 
 type PostsProviderProps = {
   children: ReactNode
@@ -11,20 +11,16 @@ type PostsProviderProps = {
 
 export function PostsProvider({ children }: PostsProviderProps) {
   const { data: postsRaw, isLoading, error } = usePostsData()
-  const [sortTypeIndex, setSortTypeIndex] = useState(0)
-  const sortType = POSTS_SORT_OPTIONS[sortTypeIndex]?.value
-  const sortTypeLabel = POSTS_SORT_OPTIONS[sortTypeIndex]?.label || 'Unknown'
-
+  const { selectedSort } = useSort()
   const [selectedAuthors, setSelectedAuthors] = useState<string[]>([])
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([])
 
   const postsSorted = useMemo(() => {
     if (!postsRaw) return []
 
-    const result = sortPosts(postsRaw, sortType)
+    const result = sortPosts(postsRaw, selectedSort)
 
     return result
-  }, [postsRaw, sortType])
+  }, [postsRaw, selectedSort])
 
   const postsIdMap = useMemo(() => {
     const map = new Map<string, IPost>()
@@ -59,24 +55,6 @@ export function PostsProvider({ children }: PostsProviderProps) {
     [postsAuthorMap]
   )
 
-  const updateSortType = useCallback<IPostsContext['updateSortType']>(
-    (newSortType) => {
-      const isValidIndex = POSTS_SORT_OPTIONS[newSortType] !== undefined
-
-      if (!isValidIndex) return
-
-      setSortTypeIndex(newSortType)
-    },
-    []
-  )
-
-  const updateCategories = useCallback<IPostsContext['updateCategories']>(
-    (newCategoryIds) => {
-      setSelectedCategories(newCategoryIds)
-    },
-    []
-  )
-
   const updateAuthors = useCallback<IPostsContext['updateAuthors']>(
     (newAuthorIds) => {
       setSelectedAuthors(newAuthorIds)
@@ -86,18 +64,13 @@ export function PostsProvider({ children }: PostsProviderProps) {
 
   const value = useMemo<IPostsContext>(
     (): IPostsContext => ({
-      posts: postsSorted ?? [],
+      posts: postsSorted,
       isLoading,
       error,
       getPostById,
       getPostsByAuthor,
-      sortTypeLabel,
-      updateSortType,
-      sortType,
       selectedAuthors,
-      selectedCategories,
       updateAuthors,
-      updateCategories,
     }),
     [
       postsSorted,
@@ -105,13 +78,8 @@ export function PostsProvider({ children }: PostsProviderProps) {
       getPostById,
       getPostsByAuthor,
       error,
-      sortTypeLabel,
-      updateSortType,
-      sortType,
       selectedAuthors,
-      selectedCategories,
       updateAuthors,
-      updateCategories,
     ]
   )
 

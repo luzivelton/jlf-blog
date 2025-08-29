@@ -2,14 +2,35 @@ import { render, screen, act } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Dropdown } from './Dropdown'
 import { useState } from 'react'
-import type { DropdownProps } from '@/components/Dropdown/DropdownInterfaces'
+import type {
+  DropdownProps,
+  ValueType,
+} from '@/components/Dropdown/DropdownInterfaces'
 
-function TestDropdown<T>(props: Partial<DropdownProps<T>>) {
-  const [valueIndex, setValueIndex] = useState(0)
-  const value = props.options ? props.options[valueIndex]?.value : undefined
+function TestDropdown<T, M extends boolean | undefined>(
+  props: Partial<DropdownProps<T, M>> & Pick<DropdownProps<T, M>, 'options'>
+) {
+  const [value, setValue] = useState<ValueType<T, M>>(
+    (props.multiple ? [] : props.options?.[0]?.value) as ValueType<T, M>
+  )
+
+  const onChange = (newValue: T) => {
+    if (props.multiple) {
+      const isAdding = !(value as T[]).includes(newValue)
+
+      setValue(
+        isAdding
+          ? ([...(value as T[]), newValue] as ValueType<T, M>)
+          : ((value as T[]).filter((v) => v !== newValue) as ValueType<T, M>)
+      )
+    } else {
+      setValue(newValue as ValueType<T, M>)
+    }
+  }
+
   return (
     <Dropdown
-      onChange={setValueIndex}
+      onChange={onChange}
       {...props}
       value={value}
       options={props.options ?? []}
@@ -53,7 +74,7 @@ describe('Dropdown', () => {
 
     await userEvent.click(screen.getByText('Trigger'))
     await userEvent.click(screen.getByText('Option 2'))
-    expect(handleChange).toHaveBeenCalledWith(1)
+    expect(handleChange).toHaveBeenCalledWith('option2')
   })
 
   it('closes when clicking outside', async () => {

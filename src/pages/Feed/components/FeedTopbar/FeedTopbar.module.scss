@@ -1,4 +1,8 @@
+@use '@/styles/tokens/spacing.scss' as *;
+
 .feedTopbar {
   display: flex;
-  justify-content: flex-end;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: $spacing-xxs;
 }

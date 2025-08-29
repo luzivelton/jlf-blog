@@ -3,6 +3,7 @@
 @use '@/styles/tokens/border.scss' as *;
 @use '@/styles/tokens/typography.scss' as *;
 @use '@/styles/tokens/breakpoints.scss' as *;
+@use '@/styles/tokens/animations.scss' as *;
 
 .button {
   display: inline-flex;
@@ -13,11 +14,14 @@
   cursor: pointer;
   padding: $spacing-xs $spacing-md;
   border-radius: $radius-full;
+  white-space: nowrap;
 
-  transition:
-    background 0.2s,
-    color 0.2s,
-    border 0.2s;
+  @include has-motion {
+    transition:
+      background 0.2s,
+      color 0.2s,
+      border 0.2s;
+  }
 }
 
 .primary {

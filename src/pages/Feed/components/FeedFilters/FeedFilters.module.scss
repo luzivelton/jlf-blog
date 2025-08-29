@@ -1,0 +1,13 @@
+@use '@/styles/tokens/spacing.scss' as *;
+
+.inline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-xs;
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+}

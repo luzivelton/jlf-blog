@@ -3,14 +3,21 @@ import type { ImageProps } from '@/components/Image/ImageInterfaces'
 import clsx from 'clsx'
 import styles from './ArticleImage.module.scss'
 
-type ArticleProps = ImageProps
+type ArticleProps = Omit<ImageProps, 'className'> & {
+  classNames?: {
+    container?: string
+    image?: string
+  }
+}
 
-export function ArticleImage({ className, ...props }: ArticleProps) {
+export function ArticleImage({ classNames, ...props }: ArticleProps) {
   return (
-    <Image
-      className={clsx(styles.image, className)}
-      alt='Article image'
-      {...props}
-    />
+    <div className={clsx(styles.container, classNames?.container)}>
+      <Image
+        className={clsx(styles.image, classNames?.image)}
+        alt='Article image'
+        {...props}
+      />
+    </div>
   )
 }

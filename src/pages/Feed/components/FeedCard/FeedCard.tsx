@@ -25,7 +25,13 @@ const FeedCardInner = ({
 }: FeedCardProps) => {
   return (
     <article className={clsx(styles.container, className)} {...props}>
-      <ArticleImage className={styles.image} src={thumbnail_url} alt={title} />
+      <div className={styles.imageContainer}>
+        <ArticleImage
+          classNames={{ image: styles.image }}
+          src={thumbnail_url}
+          alt={title}
+        />
+      </div>
       <div className={styles.content}>
         <ArticleAuthorAndDate.Compact
           authorName={author.name}

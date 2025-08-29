@@ -1,5 +1,5 @@
 import type { IAuthor } from './IAuthor'
-import type { ICategory } from './ICategories'
+import type { ICategory } from './IFilters'
 
 export interface IPost {
   id: string
@@ -17,13 +17,8 @@ export interface IPostsContext {
   posts: IPost[]
   isLoading: boolean
   error: Error | null
-  sortTypeLabel: string
-  sortType: _sortType
-  selectedCategories: string[]
   selectedAuthors: string[]
-  updateCategories: (newCategoryIds: string[]) => void
   updateAuthors: (newAuthorIds: string[]) => void
-  updateSortType: (newSortType: number) => void
   getPostById: (id: string) => IPost
   getPostsByAuthor: (authorId: string) => IPost[]
 }

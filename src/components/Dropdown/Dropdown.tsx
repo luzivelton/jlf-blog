@@ -10,15 +10,16 @@ import type {
 import { useDismissOnScroll } from '@/components/Dropdown/hooks/useDismissOnScroll'
 import { useClickOutside } from '@/components/Dropdown/hooks/useClickOutside'
 
-export function Dropdown<T>({
+export function Dropdown<T, M extends boolean | undefined>({
   container,
   children,
   onChange,
   position = 'left',
   classNames,
   className,
+  multiple,
   ...props
-}: DropdownProps<T>) {
+}: DropdownProps<T, M>) {
   const [isOpen, setIsOpen] = useState(false)
   const triggerRef = React.useRef<HTMLDivElement | null>(null)
   const panelRef = React.useRef<HTMLDivElement | null>(null)
@@ -31,9 +32,9 @@ export function Dropdown<T>({
     setIsOpen((prev) => !prev)
   }
 
-  function handleChange(valueIndex: number) {
+  function handleChange(value: T) {
     onDismiss()
-    onChange(valueIndex)
+    onChange(value)
   }
 
   useDismissOnScroll({ onDismiss, isOpen, panelRef })
@@ -67,7 +68,7 @@ export function Dropdown<T>({
   )
 }
 
-function Panel<T>({
+function Panel<T, M extends boolean | undefined>({
   options,
   className,
   isOpen,
@@ -75,7 +76,7 @@ function Panel<T>({
   position = 'left',
   value,
   ...props
-}: PanelProps<T>) {
+}: PanelProps<T, M>) {
   const hasOptions = options && options[0]
 
   return (
@@ -93,16 +94,18 @@ function Panel<T>({
         {...props}
       >
         {hasOptions ? (
-          options.map((option, index) => {
+          options.map((option) => {
+            const selected = Array.isArray(value)
+              ? value.includes(option.value)
+              : value === option.value
+
             return (
-              <Menu.Item
+              <PanelItem
                 key={option.label}
-                onClick={() => handleChange(index)}
-                selected={value === option.value}
-                value={index}
-              >
-                {option.label}
-              </Menu.Item>
+                option={option}
+                selected={selected}
+                handleChange={handleChange}
+              />
             )
           })
         ) : (
@@ -110,6 +113,27 @@ function Panel<T>({
         )}
       </Menu>
     )
+  )
+}
+
+function PanelItem<T>({
+  option,
+  selected,
+  handleChange,
+}: {
+  option: { label: string; value: T }
+  selected: boolean
+  handleChange: (value: T) => void
+}) {
+  return (
+    <Menu.Item
+      key={option.label}
+      onClick={() => handleChange(option.value)}
+      selected={selected}
+      value={option.value}
+    >
+      {option.label}
+    </Menu.Item>
   )
 }
 

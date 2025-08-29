@@ -3,35 +3,66 @@ import { DropdownText } from './DropdownText'
 import { FaChevronDown } from 'react-icons/fa'
 import { useState } from 'react'
 import type { DropdownTextProps } from '@/components/DropdownText/DropdownTextInterfaces'
+import type { ValueType } from '@/components/Dropdown/DropdownInterfaces'
 
 const options = [
   { label: 'Option 1', value: 'option1' },
   { label: 'Option 2', value: 'option2' },
 ]
 
-function TestDropdownText<T>(props: Partial<DropdownTextProps<T>>) {
-  const [valueIndex, setValueIndex] = useState(0)
-  const selectedOption = options[valueIndex]
-  const valueLabel = selectedOption.label
-  const value = selectedOption.value
+function TestDropdownText<T, M extends boolean | undefined>(
+  props: Partial<DropdownTextProps<T, M>> &
+    Pick<DropdownTextProps<T, M>, 'options'>
+) {
+  const [value, setValue] = useState<ValueType<T, M>>(
+    (props.multiple ? [] : props.options?.[0]?.value) as ValueType<T, M>
+  )
+
+  const valueLabel =
+    options.find((option) => option.value === value)?.label || ''
+
+  const onChange = (newValue: T) => {
+    if (props.multiple) {
+      const isAdding = !(value as T[]).includes(newValue)
+
+      setValue(
+        isAdding
+          ? ([...(value as T[]), newValue] as ValueType<T, M>)
+          : ((value as T[]).filter((v) => v !== newValue) as ValueType<T, M>)
+      )
+    } else {
+      setValue(newValue as ValueType<T, M>)
+    }
+  }
 
   return (
     <DropdownText
+      onChange={onChange}
       {...props}
-      onChange={setValueIndex}
-      Icon={FaChevronDown}
-      options={options}
-      valueLabel={valueLabel}
       value={value}
-    >
-      {props.children}
-    </DropdownText>
+      options={props.options ?? []}
+      Icon={FaChevronDown}
+      valueLabel={valueLabel}
+    />
   )
 }
 
 describe('DropdownText', () => {
+  it('supports multiple selection', () => {
+    render(
+      <TestDropdownText options={options} multiple={false}>
+        LabelText
+      </TestDropdownText>
+    )
+    expect(screen.getByText('Option 1')).toBeInTheDocument()
+  })
+
   function setup(props = {}) {
-    return render(<TestDropdownText {...props}>LabelText</TestDropdownText>)
+    return render(
+      <TestDropdownText options={options} {...props}>
+        LabelText
+      </TestDropdownText>
+    )
   }
 
   it('shows the value label', () => {

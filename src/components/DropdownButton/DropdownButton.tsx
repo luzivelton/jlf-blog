@@ -1,19 +1,18 @@
 import { Dropdown } from '@/components/Dropdown/Dropdown'
-import { Typography } from '@/components/Typography/Typography'
 import { useRef } from 'react'
 import clsx from 'clsx'
 import styles from './DropdownButton.module.scss'
 import type { DropdownButtonProps } from '@/components/DropdownButton/DropdownButtonInterfaces'
-import { MdArrowDownward } from 'react-icons/md'
 import { Button } from '@/components/Button/Button'
+import { FaChevronDown } from 'react-icons/fa6'
 
-export function DropdownButton<T>({
+export function DropdownButton<T, M extends boolean | undefined>({
   label,
   labelOfSelected,
   className,
   classNames,
   ...props
-}: DropdownButtonProps<T>) {
+}: DropdownButtonProps<T, M>) {
   const containerRef = useRef<HTMLDivElement | null>(null)
 
   return (
@@ -30,13 +29,8 @@ export function DropdownButton<T>({
           variant='secondary'
           className={clsx(styles.content, classNames?.content)}
         >
-          <Typography
-            className={clsx(styles.text, classNames?.text)}
-            variant='bodySmall'
-          >
-            {labelOfSelected ?? label}
-          </Typography>
-          <MdArrowDownward
+          {labelOfSelected || label}
+          <FaChevronDown
             size='1rem'
             className={styles.icon}
             data-testid='dropdown-icon'

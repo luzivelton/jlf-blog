@@ -6,14 +6,14 @@ import clsx from 'clsx'
 import type { DropdownTextProps } from '@/components/DropdownText/DropdownTextInterfaces'
 import styles from './DropdownText.module.scss'
 
-export function DropdownText<T>({
+export function DropdownText<T, M extends boolean | undefined>({
   children,
   valueLabel,
   Icon,
   className,
   classNames,
   ...props
-}: DropdownTextProps<T>) {
+}: DropdownTextProps<T, M>) {
   const isMobile = useIsMobile()
   const containerRef = useRef<HTMLDivElement | null>(null)
 
