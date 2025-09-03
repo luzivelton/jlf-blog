@@ -1,4 +1,4 @@
-import { MOCK_POSTS } from '@/__mocks__/posts'
+import { MOCK_POSTS } from '@/__mocks__/data/posts'
 import { sortPosts } from './sortPosts'
 
 describe('sortPosts', () => {

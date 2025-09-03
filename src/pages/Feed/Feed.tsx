@@ -9,7 +9,7 @@ export function Feed() {
   const { posts } = usePosts()
 
   return (
-    <BlogLayout>
+    <BlogLayout data-testid='feed'>
       <FeedAside />
       <div className={styles.feed}>
         <FeedTopbar />

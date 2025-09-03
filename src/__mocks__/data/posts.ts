@@ -1,4 +1,5 @@
 import type { IPost } from '@/interfaces/IPost'
+import { MOCK_CATEGORIES } from '@/__mocks__/data/category'
 
 export const MOCK_POSTS: IPost[] = [
   {
@@ -9,7 +10,7 @@ export const MOCK_POSTS: IPost[] = [
     authorId: 'a',
     createdAt: '2025-08-01T10:00:00.000Z',
     updatedAt: '2025-08-01T10:00:00.000Z',
-    categories: [],
+    categories: [MOCK_CATEGORIES[0], MOCK_CATEGORIES[2]],
     author: {
       id: 'a',
       name: 'Author',
@@ -26,7 +27,7 @@ export const MOCK_POSTS: IPost[] = [
     authorId: 'b',
     createdAt: '2025-08-03T10:00:00.000Z',
     updatedAt: '2025-08-03T10:00:00.000Z',
-    categories: [],
+    categories: [MOCK_CATEGORIES[1], MOCK_CATEGORIES[4]],
     author: {
       id: 'b',
       name: 'Author',
@@ -43,7 +44,7 @@ export const MOCK_POSTS: IPost[] = [
     authorId: 'c',
     createdAt: '2025-07-30T10:00:00.000Z',
     updatedAt: '2025-07-30T10:00:00.000Z',
-    categories: [],
+    categories: [MOCK_CATEGORIES[3]],
     author: {
       id: 'c',
       name: 'Author',

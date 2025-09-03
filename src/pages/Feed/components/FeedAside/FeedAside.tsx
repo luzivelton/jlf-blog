@@ -7,11 +7,21 @@ import { usePosts } from '@/pages/Feed/hooks/usePosts'
 export function FeedAside() {
   const isMobile = useIsMobile()
   const { updatePosts, postsRaw } = usePosts()
-  const { filterByAuthor, filterByCategory } = useFilters()
+  const {
+    filterByAuthor,
+    filterByCategory,
+    selectedAuthors,
+    selectedCategories,
+  } = useFilters()
 
   function handleFilter() {
     if (postsRaw) {
-      updatePosts(filterByAuthor(filterByCategory(postsRaw)))
+      updatePosts(
+        filterByAuthor(
+          filterByCategory(postsRaw, selectedCategories),
+          selectedAuthors
+        )
+      )
     }
   }
 

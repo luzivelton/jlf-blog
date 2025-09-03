@@ -24,7 +24,11 @@ const FeedCardInner = ({
   ...props
 }: FeedCardProps) => {
   return (
-    <article className={clsx(styles.container, className)} {...props}>
+    <article
+      className={clsx(styles.container, className)}
+      {...props}
+      data-testid='feed-card'
+    >
       <div className={styles.imageContainer}>
         <ArticleImage
           classNames={{ image: styles.image }}

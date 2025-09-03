@@ -30,7 +30,7 @@ export function FeedTopbar() {
   }
 
   return (
-    <div className={styles.feedTopbar}>
+    <div data-testid='feed-top-bar' className={styles.feedTopbar}>
       {isMobile && <FeedFilters.Inline onChange={handleFilter} />}
       <FeedSort />
     </div>
